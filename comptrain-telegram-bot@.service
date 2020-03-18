@@ -1,0 +1,13 @@
+[Unit]
+Description=Telegram bot to publish CompTrain %i trainings
+After=network.target
+
+[Service]
+Environment="TELEGRAM_CHAT_ID=@comptrain_%i_prep"
+Environment="WOD=%i"
+EnvironmentFile=/etc/comptrain-telegram-bot/%i
+User=comptrain_%i_prep
+ExecStart=/usr/bin/python3 /home/comptrain_%i_prep/comptrain-telegram-bot/comptrain-telegram-bot.py
+
+[Install]
+WantedBy=multi-user.target
