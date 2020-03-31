@@ -6,10 +6,10 @@ Forked from elbaulp/comptrain-bot
 
 Support several training plans:
 
-  - Open prep
-  - Games prep
-  - Home gym with equipment
-  - Home gym without equipment
+  - Open prep - https://t.me/comptrain_open_prep
+  - Games prep - https://t.me/comptrain_games_prep
+  - Home gym with equipment - https://t.me/comptrain_home_gym
+  - Home gym without equipment - https://t.me/comptrain_home_gym
 
 ## Usage
 
