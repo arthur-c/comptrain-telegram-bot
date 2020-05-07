@@ -117,12 +117,14 @@ def parse_wod_date(scrapped_page: bs4.BeautifulSoup):
     return wod_date
 
 
-def parse_wod_content(scrapped_page: bs4.BeautifulSoup, wod_date: str, wod_type: slice):
+
+
+def parse_wod_content(scrapped_page: bs4.BeautifulSoup, wod_date: str, wod_type: slice, html_class: str):
     """
     Parse WOD infos
     """
 
-    my_divs = scrapped_page.findAll("div", {"class": "col-md-6"}, limit=2)[wod_type]
+    my_divs = scrapped_page.findAll("div", {"class": html_class}, limit=2)[wod_type]
     sections = my_divs[0].find_all(["p", "h2", "h3"])
 
     strong_wod_date = f"<strong>{wod_date.upper()}</strong>\n\n"
@@ -224,18 +226,22 @@ def main(db_connection):
         LOGGER.info("home-gym training with equipment selected")
         wod = "home-gym"
         wod_type = slice(0, 1)
+        html_class = "col-md-8"
     elif wod_goal == "home2":
         LOGGER.info("home-gym training without equipment  selected")
         wod = "home-gym"
         wod_type = slice(1, 2)
+        html_class = "col-md-8"
     elif wod_goal == "open":
         LOGGER.info("open training selected")
         wod = "wod"
         wod_type = slice(0, 1)
+        html_class = "col-md-6"
     elif wod_goal == "games":
         LOGGER.info("games training selected")
         wod = "wod"
         wod_type = slice(1, 2)
+        html_class = "col-md-6"
     else:
         print("Invalid WOD value: allowed values are 'open' or 'games' or 'home1' or 'home2'")
         sys.exit(1)
@@ -243,7 +249,7 @@ def main(db_connection):
     scrapped_page = get_page(wod)
     parsed_page = parse_page(scrapped_page)
     wod_date = parse_wod_date(parsed_page)
-    wod_content = parse_wod_content(parsed_page, wod_date, wod_type)
+    wod_content = parse_wod_content(parsed_page, wod_date, wod_type, html_class)
     check = check_message_event(db_connection, wod_date)
 
     if check.fetchone() is None:
